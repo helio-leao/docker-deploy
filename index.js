@@ -2,12 +2,12 @@ const express = require("express");
 const { Pool } = require("pg");
 const Redis = require("ioredis");
 
-const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(express.json());
 
+// Postgres Connection
 const pool = new Pool({
-  host: "postgres", // Matches the service name in docker-compose.yml
+  host: process.env.POSTGRES_HOST,
   user: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DB,
@@ -15,8 +15,7 @@ const pool = new Pool({
 
 // Redis Connection
 const redis = new Redis({
-  host: "redis", // Matches the service name in docker-compose.yml
-  port: 6379,
+  host: process.env.REDIS_HOST,
 });
 
 // Create table if not exists
@@ -69,4 +68,5 @@ app.get("/posts", async (req, res) => {
   }
 });
 
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
