@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 
 const pool = new Pool({
-  host: "postgres",
+  host: "postgres", // Matches the service name in docker-compose.yml
   user: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DB,
